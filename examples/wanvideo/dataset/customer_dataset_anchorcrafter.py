@@ -281,10 +281,15 @@ class HumanHoiDataset_anchorcrafter(Dataset):
         self.data_root = ""
         self.caption_path = "prompt/prompt_all_v2.txt"
         self.caption_root = "/root/paddlejob/workspace/huangxuan/bos_data/yqw/processed_human_videos"
-        with open(self.caption_path, 'r', encoding='utf-8') as file:
-            content = file.read()
-
-        self.caption = json.loads(content)
+        
+        # Check if caption file exists
+        if os.path.exists(self.caption_path):
+            with open(self.caption_path, 'r', encoding='utf-8') as file:
+                content = file.read()
+            self.caption = json.loads(content)
+        else:
+            print(f"Warning: Caption file not found at {self.caption_path}, caption feature disabled.")
+            self.caption = None
         self.ref_image = ref_img
         self.ref_first_frame = ref_first_frame
         print('ref_id_type:', ref_id_type)
@@ -314,7 +319,7 @@ class HumanHoiDataset_anchorcrafter(Dataset):
         if self.ref_first_frame:
             prompt = ""
         else:
-            if not self.is_rehold:
+            if not self.is_rehold and self.caption is not None and prompt_key in self.caption:
                 prompt = self.caption[prompt_key]
             else:
                 prompt = ""
