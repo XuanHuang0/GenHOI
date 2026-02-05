@@ -1,2 +1,0 @@
-video_path,obj_path,mask_path,obj_mask_path
-demo/selfswap/10/video_cut/0_0.mp4,demo/selfswap/10/masked_object_cut_/0,demo/selfswap/10/object_mask_cut_/0,demo/selfswap/10/obj_mask_cut/0_0.mp4

@@ -1,2 +1,0 @@
-video_path,obj_mask_path,input_path,ref_img
-demo/10/26_78/video.mp4,demo/10/26_78/mask.mp4,demo/10/26_78/video_replace.mp4,demo/10/26_78/ref_img.png
