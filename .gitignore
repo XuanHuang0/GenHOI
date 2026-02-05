@@ -8,8 +8,6 @@ models/*.pth
 models/*.pt
 results
 data
-demo
 tools/eval_fvd/*.pt
 tools/eval_fvd/*.pth
-*.mp4
 *.safetensors
