@@ -40,37 +40,66 @@ pip install -r requirements.txt
 
 ## 📂 Model Weights
 
-### Download Pre-trained Models
+### Option 1: Download with Script (Recommended)
 
-1. **Base Model (Wan2.1-I2V-14B-720P)**
+```bash
+# Install dependencies
+pip install huggingface_hub gdown
 
-Download the Wan2.1 base model and place it in `models/Wan2.1-I2V-14B-720P/`:
+# Download all models from Hugging Face
+python scripts/download_models.py --source huggingface
+
+# Or download specific components
+python scripts/download_models.py --source huggingface --models base    # Wan2.1 base model only
+python scripts/download_models.py --source huggingface --models genhoi  # GenHOI weights only
+python scripts/download_models.py --source huggingface --models eval    # Evaluation models only
+```
+
+### Option 2: Manual Download from Hugging Face
+
+Download from: 🤗 [Hugging Face - GenHOI](https://huggingface.co/your-username/GenHOI)
+
+```bash
+# Using huggingface-cli
+pip install huggingface_hub
+huggingface-cli download your-username/GenHOI --local-dir models/
+```
+
+### Option 3: Manual Download from Google Drive
+
+Download from: [Google Drive - GenHOI](https://drive.google.com/drive/folders/xxx)
+
+### Model Files Structure
+
+After downloading, your `models/` directory should look like:
 
 ```
 models/
-└── Wan2.1-I2V-14B-720P/
-    ├── diffusion_pytorch_model-00001-of-00007.safetensors
-    ├── diffusion_pytorch_model-00002-of-00007.safetensors
-    ├── diffusion_pytorch_model-00003-of-00007.safetensors
-    ├── diffusion_pytorch_model-00004-of-00007.safetensors
-    ├── diffusion_pytorch_model-00005-of-00007.safetensors
-    ├── diffusion_pytorch_model-00006-of-00007.safetensors
-    ├── diffusion_pytorch_model-00007-of-00007.safetensors
-    ├── models_clip_open-clip-xlm-roberta-large-vit-huge-14.pth
-    ├── models_t5_umt5-xxl-enc-bf16.pth
-    └── Wan2.1_VAE.pth
+├── Wan2.1-I2V-14B-720P/           # Base model (~28GB)
+│   ├── diffusion_pytorch_model-00001-of-00007.safetensors
+│   ├── diffusion_pytorch_model-00002-of-00007.safetensors
+│   ├── diffusion_pytorch_model-00003-of-00007.safetensors
+│   ├── diffusion_pytorch_model-00004-of-00007.safetensors
+│   ├── diffusion_pytorch_model-00005-of-00007.safetensors
+│   ├── diffusion_pytorch_model-00006-of-00007.safetensors
+│   ├── diffusion_pytorch_model-00007-of-00007.safetensors
+│   ├── models_clip_open-clip-xlm-roberta-large-vit-huge-14.pth
+│   ├── models_t5_umt5-xxl-enc-bf16.pth
+│   └── Wan2.1_VAE.pth
+└── GenHOI_wan_flf.consolidated    # Fine-tuned weights (~2-5GB)
 ```
 
-2. **GenHOI Fine-tuned Weights**
+### Evaluation Models (Optional)
 
-Download GenHOI weights and place in `models/`:
+For running evaluation metrics (FVD, FID), download additional models to `tools/eval_fvd/`:
 
 ```
-models/
-└── GenHOI_wan_flf.consolidated
+tools/eval_fvd/
+├── i3d_pretrained_400.pt      # I3D model for FVD (~50MB)
+└── resnet-50-kinetics.pth     # ResNet-50 Kinetics (~100MB)
 ```
 
-> Model weights will be released soon. Stay tuned!
+> **Note**: Update the download links after uploading. See [UPLOAD_GUIDE.md](UPLOAD_GUIDE.md) for upload instructions.
 
 ## 🚀 Quick Start
 
@@ -82,7 +111,7 @@ python examples/wanvideo/test_swap.py \
     --output_dir results/demo \
     --data_csv demo/demo.csv \
     --gpus 0 \
-    --max_num_frames 401 \
+    --max_num_frames 81 \
     --is_fl
 ```
 
